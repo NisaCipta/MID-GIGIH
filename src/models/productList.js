@@ -3,11 +3,7 @@ const { Schema } = mongoose;
 
 const productSchema = new Schema(
   {
-    name: {
-      required: true,
-      type: String,
-    },
-    link: {
+    title: {
       required: true,
       type: String,
     },
@@ -15,9 +11,13 @@ const productSchema = new Schema(
       require: true,
       type: Number,
     },
-    stock: {
+    video_id: {
+      required: true,
+      type: String,
+    },
+    link_product: {
       require: true,
-      type: Number,
+      type: String,
     },
   },
   { versionKey: false }

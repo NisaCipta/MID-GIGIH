@@ -25,26 +25,9 @@ const getProductById = async (id) => {
   }
 };
 
-const updateProduct = async (id, data) => {
-  try {
-    return await productRepo.updateProduct(id, data);
-  } catch (error) {
-    throw new Error("service : Failed to update product by id");
-  }
-};
-
-const deleteProduct = async (id) => {
-  try {
-    return await productRepo.deleteProduct(id);
-  } catch (error) {
-    throw new Error("service : Failed to delete product by id");
-  }
-};
 
 module.exports = {
   createProduct,
   getAllProduct,
   getProductById,
-  updateProduct,
-  deleteProduct,
 };

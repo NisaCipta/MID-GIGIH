@@ -25,26 +25,9 @@ const getCommentById = async (id) => {
   }
 };
 
-const updateComment = async (id, data) => {
-  try {
-    return await commentRepo.updateComment(id, data);
-  } catch (error) {
-    throw new Error("service : Failed to update comment by id");
-  }
-};
-
-const deleteComment = async (id) => {
-  try {
-    return await commentRepo.deleteComment(id);
-  } catch (error) {
-    throw new Error("service : Failed to delete comment by id");
-  }
-};
 
 module.exports = {
   createComment,
   getAllComment,
   getCommentById,
-  updateComment,
-  deleteComment,
 };

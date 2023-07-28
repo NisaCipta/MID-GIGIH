@@ -37,31 +37,9 @@ const getCommentById = async (req, res) => {
   }
 };
 
-const updateComment = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const newData = req.body;
-    const updateComment = await commentService.updateComment(id, newData);
-    res.status(200).json(generateResponse(200, "success get all comment", updateComment));
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const deleteComment = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const deleteComment = await commentService.deleteComment(id);
-    res.status(200).json(deleteComment);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
 module.exports = {
   createComment,
   getAllComment,
   getCommentById,
-  updateComment,
-  deleteComment,
 };

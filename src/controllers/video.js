@@ -1,20 +1,25 @@
-const videoService = require("../services/video");
-
-const generateResponse = (code, message, data) => {
-  return {
-    code: code,
-    message: message,
-    data: data,
-  };
-};
+const service = require("../services");
+const pkg = require("../../src/pkg");
 
 const createVideo = async (req, res) => {
   try {
-    const videoData = req.body;
-    const newVideo = await videoService.createVideo(videoData);
-    res.status(201).json(generateResponse(201, "success create video", newVideo));
+    let { url_image_thumbnail, video_url } = req.body;
+
+    if (video_url == "") {
+      throw new pkg.CustomError("video_url is required", 400);
+    }
+
+    if (url_image_thumbnail == "") {
+      throw new pkg.CustomError("url_image_tumbnail is required", 400);
+    }
+    
+    console.log(req.body, 123);
+    let newVideo = await service.videoService.createVideo(req.body);
+    console.log(newVideo, 123);
+
+    pkg.Responder.generateResponse(res, 201, "success create video", newVideo);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    pkg.Responder.responseError(res, error);
   }
 };
 
@@ -37,31 +42,8 @@ const getVideoById = async (req, res) => {
   }
 };
 
-const updateVideo = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const newData = req.body;
-    const updateVideo = await videoService.updateVideo(id, newData);
-    res.status(200).json(generateResponse(200, "success update video by id", updateVideo));
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const deleteVideo = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const deleteVideo = await videoService.deleteVideo(id);
-    res.status(200).json(generateResponse(200, "success delete video by id", deleteVideo));
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 module.exports = {
   createVideo,
   getAllVideo,
   getVideoById,
-  updateVideo,
-  deleteVideo,
 };

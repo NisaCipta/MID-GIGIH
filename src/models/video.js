@@ -3,14 +3,20 @@ const { Schema } = mongoose;
 
 const videoSchema = new Schema(
   {
-    video_url: {
-      required: true,
+    url_image_thumbnail: {
       type: String,
+      required: true,
+    },
+    video_url: {
+      type: String,
+      required: true,
     },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    timestamps: true,
+  }
 );
 
-videoSchema.set("timestamps", true);
-videoSchema.set();
+// videoSchema.set();
 module.exports = mongoose.model("Video", videoSchema);

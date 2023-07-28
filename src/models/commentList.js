@@ -7,17 +7,13 @@ const commentSchema = new Schema(
       required: true,
       type: String,
     },
-    comment_fill: {
+    comment: {
       required: true,
-      type: [],
+      type: String,
     },
-    timestamp: {
+    video_id: {
       require: true,
-      type: Date,
-    },
-    product_id: {
-      require: true,
-      type: Number,
+      type: String,
     },
   },
   { versionKey: false }

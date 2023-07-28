@@ -1,9 +1,14 @@
-const productRepo = require("../repository/productList");
+const Repo = require("../repository");
+const pkg = require("../pkg");
 
 const createProduct = async (dataProduct) => {
   try {
-    const newProduct = await productRepo.createProduct(dataProduct);
-    return newProduct;
+    const product = dataProduct;
+    let video = await Repo.videoRepo.createProduct(product.video_id);
+    if (video == null) {
+      throw new pkg.CustomError("video is not found", 404);
+    }
+    return await Repo.productRepo.createProduct(product);
   } catch (error) {
     throw new Error("service : Failed to create product");
   }
@@ -11,7 +16,7 @@ const createProduct = async (dataProduct) => {
 
 const getAllProduct = async () => {
   try {
-    return await productRepo.getAllProduct();
+    return await Repo.productRepo.getAllProduct();
   } catch (error) {
     throw new Error("service : Failed to get all product");
   }
@@ -19,12 +24,11 @@ const getAllProduct = async () => {
 
 const getProductById = async (id) => {
   try {
-    return await productRepo.getProductById(id);
+    return await Repo.productRepo.getProductById(id);
   } catch (error) {
     throw new Error("service : Failed to get product by id");
   }
 };
-
 
 module.exports = {
   createProduct,

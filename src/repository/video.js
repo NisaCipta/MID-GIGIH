@@ -1,12 +1,9 @@
-const videoModel = require("../models");
+const { videoModel } = require("../models");
 
 // post
 const createVideo = async (data) => {
   try {
-    console.log(data, 8888);
-    const saveVideo = await videoModel.save(data);
-    console.log(data, saveVideo, 99999);
-
+    const saveVideo = await videoModel.create(data);
     return saveVideo;
   } catch (error) {
     throw new Error("repo : Failed to create video");
@@ -16,7 +13,7 @@ const createVideo = async (data) => {
 // get all video
 const getAllVideo = async () => {
   try {
-    const videos = video.find();
+    const videos = await videoModel.find();
     return videos;
   } catch (error) {
     throw new Error("repo : Failed to get all video");
@@ -26,7 +23,7 @@ const getAllVideo = async () => {
 // get by id
 const getVideoById = async (id) => {
   try {
-    return await Video.findById(id);
+    return await videoModel.findById(id);
   } catch (error) {
     throw new Error("repo : Failed to get video by id");
   }

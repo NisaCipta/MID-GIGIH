@@ -1,8 +1,15 @@
-const commentRepo = require("../repository/comment");
+const Repo = require("../repository")
 
 const createComment = async (dataComment) => {
   try {
-    const newComment = await commentRepo.createComment(dataComment);
+    let comment = dataComment
+    let video = await Repo.videoRepo.getVideoById(comment.video_id)
+
+    if (video == null) {
+      throw new Error("service : Failed to create comment");
+    }
+
+    const newComment = await Repo.commentRepo.createComment(dataComment);
     return newComment;
   } catch (error) {
     throw new Error("service : Failed to create comment");
@@ -11,7 +18,7 @@ const createComment = async (dataComment) => {
 
 const getAllComment = async () => {
   try {
-    return await commentRepo.getAllComment();
+    return await Repo.commentRepo.getAllComment();
   } catch (error) {
     throw new Error("service : Failed to get all comment");
   }
@@ -19,7 +26,7 @@ const getAllComment = async () => {
 
 const getCommentById = async (id) => {
   try {
-    return await commentRepo.getCommentById(id);
+    return await Repo.commentRepo.getCommentById(id);
   } catch (error) {
     throw new Error("service : Failed to get comment by id");
   }

@@ -18,5 +18,5 @@ const videoSchema = new Schema(
   }
 );
 
-// videoSchema.set();
+videoSchema.set();
 module.exports = mongoose.model("Video", videoSchema);

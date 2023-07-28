@@ -1,42 +1,45 @@
-const commentService = require("../services/comment");
-
-const generateResponse = (code, message, data) => {
-  return {
-    code: code,
-    message: message,
-    data: data,
-  };
-};
+const service = require("../services");
+const pkg = require("../../src/pkg");
 
 const createComment = async (req, res) => {
   try {
-    const commentData = req.body;
-    const newComment = await commentService.createComment(commentData);
-    res.status(201).json(generateResponse(201, "success create comment", newComment));
+    const { video_id, username, comment } = req.body;
+
+    if (video_id == "") {
+      throw new pkg.CustomError("video_id is required", 400);
+    }
+    if (username == "") {
+      throw new pkg.CustomError("username is required", 400);
+    }
+    if (comment == "") {
+      throw new pkg.CustomError("comment is required", 400);
+    }
+
+    const newComment = await service.commentService.createComment(req.body);
+    pkg.Responder.generateResponse(res, 201, "success create comment", newComment);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    pkg.Responder.responseError(res, error);
   }
 };
 
 const getAllComment = async (req, res) => {
   try {
-    const dataComments = await commentService.getAllComment();
-    res.status(200).json(generateResponse(200, "success get all comment", dataComments));
+    const dataComments = await service.commentService.getAllComment();
+    pkg.Responder.generateResponse(res, 200, "success get all comment", dataComments);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    pkg.Responder.responseError(res, error);
   }
 };
 
 const getCommentById = async (req, res) => {
   try {
     const id = req.params.id;
-    const dataComment = await commentService.getCommentById(id);
-    res.status(200).json(generateResponse(200, "success get all comment", dataComment));
+    const dataComment = await service.commentService.getCommentById(id);
+    pkg.Responder.generateResponse(res, 200, "success get comment by id", dataComment);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    pkg.Responder.responseError(res, error);
   }
 };
-
 
 module.exports = {
   createComment,

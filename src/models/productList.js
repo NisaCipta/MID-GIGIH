@@ -12,17 +12,21 @@ const productSchema = new Schema(
       type: Number,
     },
     video_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Video",
       required: true,
-      type: String,
     },
     link_product: {
       require: true,
       type: String,
     },
   },
-  { versionKey: false }
+  
+  {
+    versionKey: false,
+    timeseries: true,
+  }
 );
 
-productSchema.set("timestamps", true);
 productSchema.set();
 module.exports = mongoose.model("Product", productSchema);

@@ -1,10 +1,9 @@
-const Product = require("../models/productList");
+const { productModel } = require("../models");
 
 // post
 const createProduct = async (data) => {
   try {
-    const newProduct = new Product(data);
-    const saveProduct = await newProduct.save();
+    const saveProduct = await productModel.create(data);
     return saveProduct;
   } catch (error) {
     throw new Error("Failed to create product");
@@ -14,7 +13,7 @@ const createProduct = async (data) => {
 // get all product
 const getAllProduct = async () => {
   try {
-    const products = Product.find();
+    const products = productModel.find();
     return products;
   } catch (error) {
     throw new Error("Failed to get all product");
@@ -24,15 +23,23 @@ const getAllProduct = async () => {
 // get by id
 const getProductById = async (id) => {
   try {
-    return await Product.findById(id);
+    return await productModel.findById(id);
   } catch (error) {
     throw new Error("Failed to get product by id");
   }
 };
 
+const getProductByVideoID = async (id) => {
+  try {
+    return await productModel.findById({ video_id: id });
+  } catch (error) {
+    throw new Error("Failed to get product by video id");
+  }
+};
 
 module.exports = {
   createProduct,
   getAllProduct,
   getProductById,
+  getProductByVideoID,
 };

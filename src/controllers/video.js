@@ -12,10 +12,8 @@ const createVideo = async (req, res) => {
     if (url_image_thumbnail == "") {
       throw new pkg.CustomError("url_image_tumbnail is required", 400);
     }
-    
-    console.log(req.body, 123);
+
     let newVideo = await service.videoService.createVideo(req.body);
-    console.log(newVideo, 123);
 
     pkg.Responder.generateResponse(res, 201, "success create video", newVideo);
   } catch (error) {
@@ -25,20 +23,40 @@ const createVideo = async (req, res) => {
 
 const getAllVideo = async (req, res) => {
   try {
-    const dataVideos = await videoService.getAllVideo();
-    res.status(200).json(generateResponse(200, "success get all video", dataVideos));
+    const dataVideos = await service.videoService.getAllVideo();
+    pkg.Responder.generateResponse(res, 200, "success get all video", dataVideos);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    pkg.Responder.responseError(res, error);
   }
 };
 
 const getVideoById = async (req, res) => {
   try {
     const id = req.params.id;
-    const dataVideo = await videoService.getVideoById(id);
-    res.status(200).json(generateResponse(200, "success get video by id", dataVideo));
+    const dataVideo = await service.videoService.getVideoById(id);
+    pkg.Responder.generateResponse(res, 200, "success get video by id", dataVideo);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    pkg.Responder.responseError(res, error);
+  }
+};
+
+const getVideoWithProducts = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let video = await service.videoService.getVideoWithProducts(id);
+    pkg.Responder.generateResponse(res, 200, "success get video with products", video);
+  } catch (error) {
+    pkg.Responder.responseError(res, error);
+  }
+};
+
+const getVideoWithComments = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let video = await service.videoService.getVideoWithComments(id);
+    pkg.Responder.generateResponse(res, 200, "success get video with comments", video);
+  } catch (error) {
+    pkg.Responder.responseError(res, error);
   }
 };
 
@@ -46,4 +64,6 @@ module.exports = {
   createVideo,
   getAllVideo,
   getVideoById,
+  getVideoWithProducts,
+  getVideoWithComments,
 };

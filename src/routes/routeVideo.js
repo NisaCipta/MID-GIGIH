@@ -7,10 +7,8 @@ router.post("/", videoController.createVideo);
 router.get("/", videoController.getAllVideo);
 router.get("/:id", videoController.getVideoById);
 
-// yang ada productnya
-// router.post("/:id/:products", videoController.getVideoById);
-// router.get("/:id/:products", videoController.getVideoById);
-// router.post("/:id/:comments", videoController.getVideoById);
-// router.get("/:id/:comments", videoController.getVideoById);
+router.get("/:id/products", videoController.getVideoWithProducts);
+
+router.get("/:id/comments", videoController.getVideoWithComments);
 
 module.exports = router;

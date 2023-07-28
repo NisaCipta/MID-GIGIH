@@ -1,10 +1,9 @@
-const Comment = require("../models/commentList");
+const { commentModel } = require("../models");
 
 // post
 const createComment = async (data) => {
   try {
-    const newComment = new Comment(data);
-    const saveComment = await newComment.save();
+    const saveComment = await commentModel.create(data);
     return saveComment;
   } catch (error) {
     throw new Error("repo : Failed to create comment");
@@ -14,7 +13,7 @@ const createComment = async (data) => {
 // get all comment
 const getAllComment = async () => {
   try {
-    const comments = Comment.find();
+    const comments = commentModel.find();
     return comments;
   } catch (error) {
     throw new Error("repo : Failed to get all comment");
@@ -24,15 +23,23 @@ const getAllComment = async () => {
 // get by id
 const getCommentById = async (id) => {
   try {
-    return await Comment.findById(id);
+    return await commentModel.findById(id);
   } catch (error) {
     throw new Error("repo : Failed to get comment by id");
   }
 };
 
+const getCommentByVideoId = async (id) => {
+  try {
+    return await commentModel.find({ video: id });
+  } catch (error) {
+    throw new Error("repo : Failed to get comment by video id");
+  }
+};
 
 module.exports = {
   createComment,
   getAllComment,
   getCommentById,
+  getCommentByVideoId,
 };
